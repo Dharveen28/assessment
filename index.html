@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Table Display</title>
+    <style>
+        /* Excel-style table styling for Table 1 */
+        .excel-table {
+            width: 70%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            border: 2px solid #bfbfbf;
+            font-family: Arial, sans-serif;
+        }
+        .excel-table th, .excel-table td {
+            border: 1px solid #bfbfbf;
+            padding: 8px;
+            text-align: center;
+        }
+        .excel-table th {
+            background-color: black;
+            color: white;
+            font-weight: bold;
+        }
+        .excel-table td {
+            background-color: black;
+            color: white;
+        }
+        .excel-table tr:nth-child(even) td {
+            background-color: white;
+        }
+        .excel-table .number-column {
+            background-color: white;
+            color: black;
+            font-weight: bold;
+        }
+        /* White background for specific columns */
+        .excel-table .index-column, .excel-table .value-column {
+            background-color: white;
+            color: black;
+        }
+        /* White background for specific rows */
+        .excel-table .even-row {
+            background-color: white;
+            color: black;
+        }
+
+        /* Simple HTML table styling for Table 2 */
+        .simple-table {
+            width: 50%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+        }
+        .simple-table th, .simple-table td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        .simple-table th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Table Display</h1>
+    
+    <!-- Table 1: Excel Style -->
+    <table class='excel-table' id='excelTable'>
+		<tr><th colspan='number-column'></th><th>A</th><th>B</th></tr>
+        <tr><th class='number-column'>#</th><th>Index #</th><th>Value</th></tr>
+    </table>
+
+    <!-- Table 2: Simple HTML Table -->
+    <h2 style="text-align: center;">Table 2: Calculated Values</h2>
+    <table class='simple-table' id='simpleTable'>
+        <tr><th>Category</th><th>Value</th></tr>
+    </table>
+
+    <script>
+        // Table 1 Data
+        const data = {
+            "A1": 41, "A2": 18, "A3": 21, "A4": 63, "A5": 2,
+            "A6": 53, "A7": 5, "A8": 57, "A9": 60, "A10": 93,
+            "A11": 28, "A12": 3, "A13": 90, "A14": 39, "A15": 80,
+            "A16": 88, "A17": 49, "A18": 60, "A19": 26, "A20": 28,
+        };
+
+        const excelTable = document.getElementById('excelTable');
+        let count = 1;
+        for (const [index, value] of Object.entries(data)) {
+            const row = document.createElement('tr');
+            row.className = count % 2 === 0 ? 'even-row' : '';
+            row.innerHTML = `
+                <td class='number-column'>${count}</td>
+                <td class='index-column'>${index}</td>
+                <td class='value-column'>${value}</td>
+            `;
+            excelTable.appendChild(row);
+            count++;
+        }
+
+        // Table 2 Calculations
+        const alpha = data["A5"] + data["A20"];
+        const beta = (data["A15"] / data["A7"]).toFixed(2);
+        const charlie = data["A13"] * data["A12"];
+
+        const simpleTable = document.getElementById('simpleTable');
+        const calculations = [
+            { category: 'Alpha', value: alpha },
+            { category: 'Beta', value: beta },
+            { category: 'Charlie', value: charlie },
+        ];
+
+        calculations.forEach(calc => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${calc.category}</td>
+                <td>${calc.value}</td>
+            `;
+            simpleTable.appendChild(row);
+        });
+    </script>
+</body>
+</html>
